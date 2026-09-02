@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Goal-Scoring Moment — Basketball Prototype</title>
+<style>
+:root{--bg:#090d14;--panel:#131a25;--panel2:#1a2331;--line:#344155;--text:#f7f9fc;--muted:#9cabbe;--blue:#3f9cff;--red:#ff5d65;--orange:#f4a340;--green:#52d38b;--yellow:#ffd65b;--purple:#b785ff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#090d14;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,select,input{font:inherit}button{cursor:pointer}.app{max-width:1440px;margin:auto;padding:16px}.top{position:sticky;top:8px;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;padding:13px 16px;border:1px solid var(--line);border-radius:20px;background:rgba(15,20,29,.93);backdrop-filter:blur(14px);box-shadow:0 12px 32px rgba(0,0,0,.25)}.teamHead{display:flex;gap:10px;align-items:center}.teamHead.red{justify-content:flex-end;text-align:right}.tag{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.08em;background:#202a39;border:1px solid #3a475b}.roundPts{font-size:31px;font-weight:1000;line-height:1}.wins{font-size:12px;color:var(--muted)}.center{text-align:center}.center small{display:block;color:var(--muted);letter-spacing:.15em;font-weight:800}.score{font-size:34px;font-weight:1000}.tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.tool{color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:9px 11px}.tool:hover{border-color:#60718d}.court{position:relative;overflow:hidden;border-radius:26px;border:1px solid #6f5235;background:repeating-linear-gradient(90deg,#a9723a 0 54px,#b67e42 54px 108px);box-shadow:inset 0 0 120px rgba(0,0,0,.26);min-height:650px}.court:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 49.88%,rgba(255,255,255,.45) 49.9% 50.1%,transparent 50.12%),radial-gradient(circle at 50% 50%,transparent 0 78px,rgba(255,255,255,.35) 79px 81px,transparent 82px);pointer-events:none}.half{position:relative;z-index:2;padding:18px}.half.ai{min-height:285px}.half.you{min-height:285px}.halfTitle{display:flex;justify-content:space-between;align-items:end;margin-bottom:10px}.halfTitle h2{margin:0;font-size:17px}.halfTitle span{font-size:12px;color:#e6edf7}.roles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.role{position:relative;min-height:166px;padding:11px;border-radius:17px;background:rgba(8,12,18,.79);border:2px solid rgba(255,255,255,.14);box-shadow:0 8px 24px rgba(0,0,0,.18);transition:.2s}.role.blue{border-color:rgba(63,156,255,.4)}.role.red{border-color:rgba(255,93,101,.4)}.role.ball{transform:translateY(-3px);box-shadow:0 0 0 3px rgba(244,163,64,.5),0 12px 28px rgba(0,0,0,.3)}.roleTop{display:flex;justify-content:space-between;align-items:center;gap:8px}.roleName{font-weight:950}.ball{font-size:26px}.count{font-size:12px;color:var(--muted);margin-top:2px}.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px}.chip{font-size:10px;font-weight:900;line-height:1;padding:6px 7px;border-radius:8px;border:1px solid #44536a;background:#243043}.chip.off{background:#422e18;border-color:#795329}.chip.def{background:#17354b;border-color:#2d678c}.chip.ft{background:#41391b;border-color:#7f702e}.chip.util{background:#352641;border-color:#6c4b84}.middle{position:relative;z-index:4;width:min(94%,920px);margin:0 auto;padding:12px 14px;border-radius:18px;background:rgba(8,13,20,.92);border:1px solid rgba(255,255,255,.17);display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}.middle .pos{font-weight:950}.middle .state{text-align:center;font-weight:900}.middle .hint{text-align:right;color:var(--muted);font-size:12px}.actionPanel{margin-top:13px;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--panel)}.actionPanel h3{margin:0 0 10px;font-size:15px}.actions{display:flex;flex-wrap:wrap;gap:8px}.btn{border:0;border-radius:12px;padding:10px 13px;color:white;font-weight:900;background:#344155}.btn.orange{background:#9a5819}.btn.blue{background:#22699f}.btn.red{background:#9c3a3f}.btn.green{background:#247349}.btn.purple{background:#68418c}.btn.ghost{background:#273142;border:1px solid #46546b}.btn:disabled{opacity:.35;cursor:not-allowed}.gridBottom{display:grid;grid-template-columns:1.08fr .92fr;gap:13px;margin-top:13px}.box{padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--panel)}.box h3{margin:0 0 10px;font-size:15px}.log{height:275px;overflow:auto;padding:9px;border-radius:12px;background:#090e16;font-size:12.5px;line-height:1.55}.line{padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.05)}.line.good{color:#bff5d3}.line.bad{color:#ffc0c4}.rules{font-size:12.5px;line-height:1.65;color:#d5deea}.rules strong{color:white}.subtle{color:var(--muted)}.overlay{display:none;position:fixed;inset:0;z-index:100;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.72)}.overlay.show{display:flex}.modal{width:min(620px,100%);padding:20px;border-radius:21px;background:#141b27;border:1px solid #3b495f;box-shadow:0 28px 90px rgba(0,0,0,.55)}.modal h2{margin:0 0 8px}.modal p{margin:7px 0;color:#b8c3d2;line-height:1.6}.modalActions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.choiceCards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.choice{padding:18px 10px;border-radius:15px;border:1px solid #48566e;background:#202a39;color:#fff;font-weight:950;font-size:17px}.choice:hover{border-color:#91a3be}.tiny{font-size:11px;color:var(--muted);margin-top:9px}.aiBadge{display:inline-flex;align-items:center;gap:6px;padding:5px 8px;border-radius:999px;background:#2b2033;border:1px solid #584067;font-size:11px;color:#e4c9f4}.pulse{animation:pulse 1.1s infinite alternate}@keyframes pulse{from{filter:brightness(.9)}to{filter:brightness(1.25)}}
+@media(max-width:920px){.roles{grid-template-columns:repeat(2,minmax(0,1fr))}.gridBottom{grid-template-columns:1fr}}
+@media(max-width:620px){.app{padding:8px}.top{grid-template-columns:1fr 1fr}.center{grid-column:1/-1;grid-row:1}.teamHead{grid-row:2}.score{font-size:28px}.court{min-height:auto}.half{padding:10px}.roles{gap:7px}.role{min-height:145px;padding:9px}.middle{grid-template-columns:1fr;text-align:center}.middle .hint{text-align:center}.gridBottom{grid-template-columns:1fr}.tool{font-size:12px}.btn{font-size:12px;padding:9px 10px}.choiceCards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="teamHead">
+      <div><span class="tag">BLUE · YOU</span><div class="roundPts" id="blueScore">0</div><div class="wins">小局胜场 <b id="blueWins">0</b> / 3</div></div>
+    </div>
+    <div class="center"><small>ROUND <span id="roundNo">1</span></small><div class="score"><span id="centerBlue">0</span> — <span id="centerRed">0</span></div></div>
+    <div class="teamHead red">
+      <div><span class="tag">RED · HARD AI</span><div class="roundPts" id="redScore">0</div><div class="wins">小局胜场 <b id="redWins">0</b> / 3</div></div>
+    </div>
+  </div>
+
+  <div class="tools">
+    <select class="tool" id="mode">
+      <option value="2">2人试玩：你/AI各控制2个角色</option>
+      <option value="4">4人结构：每队2个角色</option>
+      <option value="6">6人结构：每队3个角色</option>
+      <option value="8">8人结构：每队4个角色</option>
+    </select>
+    <label class="tool"><input type="checkbox" id="reveal"> 测试时显示AI手牌</label>
+    <button class="tool" id="restart">重新开始整场</button>
+    <span class="aiBadge">◆ AI最高难度：记牌 + 概率判断，不偷看你的隐藏手牌</span>
+  </div>
+
+  <div class="court">
+    <section class="half ai">
+      <div class="halfTitle"><h2>RED TEAM · AI</h2><span id="redInfo"></span></div>
+      <div class="roles" id="redRoles"></div>
+    </section>
+    <div class="middle">
+      <div class="pos" id="possession">🏀 等待开局</div>
+      <div class="state" id="stateText">石头剪刀布决定首攻</div>
+      <div class="hint" id="hint">48张功能牌全部发完</div>
+    </div>
+    <section class="half you">
+      <div class="halfTitle"><h2>BLUE TEAM · YOU</h2><span id="blueInfo"></span></div>
+      <div class="roles" id="blueRoles"></div>
+    </section>
+  </div>
+
+  <div class="actionPanel">
+    <h3 id="actionTitle">等待开局</h3>
+    <div class="actions" id="actions"></div>
+    <div class="tiny">测试规则：正常球权按固定轮转；PASS不需要卡且可被STEAL；STEAL成功者直接持球；FOUL后进攻队任意角色可提供FREE THROW；双方都无投篮牌时本局结束。</div>
+  </div>
+
+  <div class="gridBottom">
+    <div class="box"><h3>比赛日志</h3><div class="log" id="log"></div></div>
+    <div class="box"><h3>当前牌组 · 48张功能牌 + 1篮球</h3><div class="rules">
+      <strong>2-POINT SHOT ×15</strong>：持球时打出，成功 +2；可被 BLOCK 阻止。<br>
+      <strong>3-POINTER ×11</strong>：持球时打出，成功 +3；可被 CONTEST 阻止。<br>
+      <strong>FREE THROW ×4</strong>：FOUL 后使用，+1，不可被防守。<br>
+      <strong>BLOCK ×5</strong>：阻止 2-POINT SHOT。<br>
+      <strong>CONTEST ×4</strong>：阻止 3-POINTER。<br>
+      <strong>STEAL ×4</strong>：只在对手 PASS 时打出；使用者直接获得篮球。<br>
+      <strong>FOUL ×5</strong>：阻止一次投篮；进攻队若有 FREE THROW 可拿1分。<br><br>
+      <strong>正常球权转换：</strong>对方队伍按固定顺序的下一名角色接球。<br>
+      <strong>无投篮牌：</strong>可 PASS；若全队都没有投篮牌，直接把球交给对方；双方都没有则结束本局。<br>
+      <strong>胜负：</strong>小局比分高者拿1局；平局不计胜场；先拿下3局获胜。
+    </div></div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions" id="modalActions"></div></div></div>
+
+<script>
+(() => {
+'use strict';
+const SPEC={TWO:15,THREE:11,FT:4,BLOCK:5,CONTEST:4,STEAL:4,FOUL:5};
+const NAME={TWO:'2-POINT SHOT',THREE:'3-POINTER',FT:'FREE THROW',BLOCK:'BLOCK',CONTEST:'CONTEST',STEAL:'STEAL',FOUL:'FOUL'};
+const ELEM=id=>document.getElementById(id);
+let G=null, busy=false;
+
+function other(t){return t==='blue'?'red':'blue'}
+function countCard(role,c){return role.hand.reduce((n,x)=>n+(x===c),0)}
+function teamCount(team,c){return G.roles[team].reduce((n,r)=>n+countCard(r,c),0)}
+function teamShots(team){return teamCount(team,'TWO')+teamCount(team,'THREE')}
+function totalHand(team){return G.roles[team].reduce((n,r)=>n+r.hand.length,0)}
+function roleById(id){return [...G.roles.blue,...G.roles.red].find(r=>r.id===id)}
+function holder(){return G.holder?roleById(G.holder):null}
+function removeCard(role,c){const i=role.hand.indexOf(c);if(i<0)return false;role.hand.splice(i,1);G.played[c]++;return true}
+function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function makeDeck(){const a=[];Object.entries(SPEC).forEach(([c,n])=>{for(let i=0;i<n;i++)a.push(c)});return shuffle(a)}
+function roleCount(mode){if(mode===6)return 3;if(mode===8)return 4;return 2}
+function cardsPerRole(mode){return 48/(roleCount(mode)*2)}
+function makeRole(team,i){return{id:(team==='blue'?'B':'R')+(i+1),team,label:(team==='blue'?'BLUE ':'RED ')+(i+1),hand:[]}}
+function log(msg,cls=''){const d=document.createElement('div');d.className='line '+cls;d.innerHTML=msg;ELEM('log').appendChild(d);ELEM('log').scrollTop=ELEM('log').scrollHeight}
+function clearLog(){ELEM('log').innerHTML=''}
+function setStatus(s,h=''){ELEM('stateText').textContent=s;ELEM('hint').textContent=h}
+function showModal(title,body,buttons=[]){ELEM('modalTitle').textContent=title;ELEM('modalBody').innerHTML=body;const a=ELEM('modalActions');a.innerHTML='';buttons.forEach(b=>{const x=document.createElement('button');x.className='btn '+(b.cls||'ghost');x.textContent=b.text;x.onclick=()=>{hideModal();b.fn&&b.fn()};a.appendChild(x)});ELEM('overlay').classList.add('show')}
+function hideModal(){ELEM('overlay').classList.remove('show')}
+
+function newMatch(){
+  const mode=+ELEM('mode').value;
+  G={mode,round:1,wins:{blue:0,red:0},score:{blue:0,red:0},roles:{blue:[],red:[]},holder:null,next:{blue:0,red:0},played:{TWO:0,THREE:0,FT:0,BLOCK:0,CONTEST:0,STEAL:0,FOUL:0},roundOver:false,matchOver:false};
+  clearLog();setupRound();
+}
+function setupRound(){
+  const n=roleCount(G.mode), deck=makeDeck(), each=cardsPerRole(G.mode);
+  G.score={blue:0,red:0};G.holder=null;G.next={blue:0,red:0};G.roundOver=false;G.played={TWO:0,THREE:0,FT:0,BLOCK:0,CONTEST:0,STEAL:0,FOUL:0};G.roles={blue:[],red:[]};
+  for(let i=0;i<n;i++){G.roles.blue.push(makeRole('blue',i));G.roles.red.push(makeRole('red',i))}
+  const order=[];for(let i=0;i<n;i++){order.push(G.roles.blue[i],G.roles.red[i])}
+  let p=0;while(deck.length){order[p%order.length].hand.push(deck.pop());p++}
+  log(`<b>ROUND ${G.round}</b>：48张功能牌全部发完，每个角色 ${each} 张。`);
+  render();rpsPrompt();
+}
+function rpsPrompt(){
+  setStatus('石头剪刀布决定首攻','请选择');
+  showModal('石头剪刀布',`<p>赢的一方获得本小局第一次球权。</p><div class="choiceCards"><button class="choice" data-rps="rock">✊ 石头</button><button class="choice" data-rps="paper">✋ 布</button><button class="choice" data-rps="scissors">✌️ 剪刀</button></div>`,[]);
+  [...document.querySelectorAll('[data-rps]')].forEach(x=>x.onclick=()=>resolveRPS(x.dataset.rps));
+}
+function resolveRPS(user){
+  const opts=['rock','paper','scissors'], ai=opts[Math.floor(Math.random()*3)], win={rock:'scissors',scissors:'paper',paper:'rock'};hideModal();
+  const zh={rock:'石头',paper:'布',scissors:'剪刀'};
+  if(user===ai){log(`猜拳：你 ${zh[user]}，AI ${zh[ai]}，平局，重来。`);setTimeout(rpsPrompt,250);return}
+  const blue=win[user]===ai;log(`猜拳：你 ${zh[user]}，AI ${zh[ai]} → <b>${blue?'BLUE先攻':'RED先攻'}</b>。`,blue?'good':'bad');
+  normalPossession(blue?'blue':'red',true);
+}
+function normalPossession(team,isStart=false){
+  if(teamShots('blue')===0&&teamShots('red')===0){endRound();return}
+  if(teamShots(team)===0){
+    const opp=other(team);
+    if(teamShots(opp)===0){endRound();return}
+    log(`${team.toUpperCase()} 全队已经没有投篮牌，篮球直接交给 ${opp.toUpperCase()}。`);
+    normalPossession(opp);return;
+  }
+  const roles=G.roles[team],idx=G.next[team]%roles.length;G.next[team]=(idx+1)%roles.length;G.holder=roles[idx].id;
+  log(`${isStart?'首攻':'正常球权转换'} → <b>${roles[idx].label} 🏀</b>`);
+  render();scheduleTurn();
+}
+function possessionToRole(role,reason){G.holder=role.id;log(`${reason} → <b>${role.label} 🏀</b>`);render();scheduleTurn()}
+function scheduleTurn(){
+  if(G.roundOver||G.matchOver)return;const h=holder();if(!h)return;
+  setStatus(`${h.label} 持球`,h.team==='blue'?'你可以行动':'AI正在计算最优动作');
+  if(h.team==='blue'){busy=false;renderActions()}else{busy=true;renderActions();setTimeout(aiTurn,620)}
+}
+
+function render(){
+  ELEM('blueScore').textContent=G.score.blue;ELEM('redScore').textContent=G.score.red;ELEM('centerBlue').textContent=G.score.blue;ELEM('centerRed').textContent=G.score.red;ELEM('blueWins').textContent=G.wins.blue;ELEM('redWins').textContent=G.wins.red;ELEM('roundNo').textContent=G.round;
+  const h=holder();ELEM('possession').textContent=h?`🏀 ${h.label} 持球`:'🏀 等待球权';
+  ELEM('blueInfo').textContent=`剩余 ${totalHand('blue')} 张 · 投篮 ${teamShots('blue')} 张`;ELEM('redInfo').textContent=`剩余 ${totalHand('red')} 张 · 投篮 ${teamShots('red')} 张`;
+  renderRoles('blue');renderRoles('red');renderActions();
+}
+function chipClass(c){if(c==='TWO'||c==='THREE')return'off';if(c==='BLOCK'||c==='CONTEST'||c==='FOUL')return'def';if(c==='FT')return'ft';return'util'}
+function renderRoles(team){
+  const root=ELEM(team+'Roles');root.innerHTML='';const reveal=team==='blue'||ELEM('reveal').checked;
+  G.roles[team].forEach(r=>{const d=document.createElement('div');d.className=`role ${team} ${G.holder===r.id?'ball':''}`;let html=`<div class="roleTop"><div><div class="roleName">${r.label}</div><div class="count">手牌 ${r.hand.length} 张</div></div><div class="ball">${G.holder===r.id?'🏀':''}</div></div>`;
+    if(reveal){const counts={};r.hand.forEach(c=>counts[c]=(counts[c]||0)+1);html+=`<div class="chips">`+Object.entries(counts).map(([c,n])=>`<span class="chip ${chipClass(c)}">${NAME[c]} ×${n}</span>`).join('')+`</div>`}else{html+=`<div class="chips"><span class="chip">隐藏手牌 ×${r.hand.length}</span></div>`}
+    d.innerHTML=html;root.appendChild(d)
+  })
+}
+function addAction(text,cls,fn,disabled=false){const b=document.createElement('button');b.className='btn '+cls;b.textContent=text;b.disabled=disabled;b.onclick=fn;ELEM('actions').appendChild(b)}
+function renderActions(){
+  const root=ELEM('actions');root.innerHTML='';if(!G||G.roundOver||G.matchOver)return;const h=holder();if(!h){ELEM('actionTitle').textContent='等待开局';return}
+  if(h.team!=='blue'){ELEM('actionTitle').textContent='AI回合：正在计算';addAction('AI THINKING…','purple',()=>{},true);return}
+  ELEM('actionTitle').textContent=`${h.label} 持球：选择动作`;
+  if(countCard(h,'TWO'))addAction(`2-POINT SHOT ×${countCard(h,'TWO')}`,'orange',()=>humanShoot('TWO'));
+  if(countCard(h,'THREE'))addAction(`3-POINTER ×${countCard(h,'THREE')}`,'orange',()=>humanShoot('THREE'));
+  G.roles.blue.filter(r=>r.id!==h.id).forEach(r=>addAction(`PASS → ${r.label}`,'blue',()=>humanPass(r)));
+  if(teamShots('blue')===0)addAction('全队无投篮牌 → 交球给RED','ghost',()=>{if(!busy){busy=true;normalPossession('red')}});
+}
+
+async function humanShoot(card){if(busy)return;busy=true;const h=holder();removeCard(h,card);render();log(`<b>${h.label}</b> 打出 <b>${NAME[card]}</b>。`);await sleep(430);await aiDefendShot(card,h)}
+function aiPickDefender(card){
+  const need=card==='TWO'?'BLOCK':'CONTEST',team=G.roles.red;
+  const exact=team.filter(r=>countCard(r,need)>0);
+  if(exact.length)return{role:bestRoleForDefense(exact,need),card:need};
+  const fouls=team.filter(r=>countCard(r,'FOUL')>0);
+  if(!fouls.length)return null;
+  if(card==='THREE')return{role:bestRoleForDefense(fouls,'FOUL'),card:'FOUL'};
+  const estimatedThrees=estimateUnseen('THREE');
+  const estimatedContests=teamCount('red','CONTEST');
+  const late=teamShots('blue')<=4||Math.abs(G.score.blue-G.score.red)<=2&&teamShots('blue')<=7;
+  const foulSurplus=teamCount('red','FOUL')>Math.max(0,estimatedThrees-estimatedContests);
+  return (late||foulSurplus)?{role:bestRoleForDefense(fouls,'FOUL'),card:'FOUL'}:null;
+}
+function bestRoleForDefense(list,c){return [...list].sort((a,b)=>countCard(b,c)-countCard(a,c)||a.hand.length-b.hand.length)[0]}
+async function aiDefendShot(card,attacker){
+  const d=aiPickDefender(card);
+  if(!d){const pts=card==='TWO'?2:3;G.score.blue+=pts;log(`AI选择不防守 → BLUE <b>+${pts}</b>。`,'good');render();await sleep(350);normalPossession('red');return}
+  removeCard(d.role,d.card);render();
+  if(d.card==='FOUL'){log(`<b>${d.role.label}</b> 打出 <b>FOUL</b>，阻止本次投篮。`,'bad');await sleep(320);await resolveFreeThrow('blue');normalPossession('red');return}
+  log(`<b>${d.role.label}</b> 打出 <b>${NAME[d.card]}</b> → 投篮失败。`,'bad');await sleep(320);normalPossession('red')
+}
+async function humanPass(target){if(busy)return;busy=true;const from=holder();log(`<b>${from.label}</b> PASS → <b>${target.label}</b>。`);await sleep(420);const stealers=G.roles.red.filter(r=>countCard(r,'STEAL')>0);
+  if(stealers.length){const s=bestStealer(stealers);removeCard(s,'STEAL');log(`<b>${s.label}</b> 打出 <b>STEAL</b>！抢断成功。`,'bad');render();await sleep(350);possessionToRole(s,'STEAL成功');return}
+  log(`传球成功，${target.label} 接到篮球。`,'good');possessionToRole(target,'PASS成功')
+}
+function bestStealer(list){return [...list].sort((a,b)=>offenseValue(b)-offenseValue(a)||countCard(b,'STEAL')-countCard(a,'STEAL'))[0]}
+function offenseValue(r){return countCard(r,'THREE')*3+countCard(r,'TWO')*2}
+
+async function aiTurn(){
+  if(G.roundOver||G.matchOver)return;const h=holder();if(!h||h.team!=='red')return;
+  if(teamShots('red')===0){busy=false;normalPossession('blue');return}
+  const two=countCard(h,'TWO'),three=countCard(h,'THREE');
+  if(!two&&!three){const target=bestAIPassTarget(h);if(target){await aiPass(h,target);return}busy=false;normalPossession('blue');return}
+  const ev2=two?estimateShotEV('TWO'):-99,ev3=three?estimateShotEV('THREE'):-99;
+  const bestTarget=bestAIPassTarget(h),passGain=bestTarget?Math.max(estimateShotEVForRole(bestTarget,'TWO'),estimateShotEVForRole(bestTarget,'THREE')): -99;
+  const stealRisk=estimateBlueHas('STEAL');
+  if(bestTarget&&passGain>Math.max(ev2,ev3)+0.75&&stealRisk<0.42){await aiPass(h,bestTarget);return}
+  await aiShoot(ev3>ev2?'THREE':'TWO');
+}
+function bestAIPassTarget(from){const cands=G.roles.red.filter(r=>r.id!==from.id&&(countCard(r,'TWO')||countCard(r,'THREE')));if(!cands.length)return null;return [...cands].sort((a,b)=>Math.max(estimateShotEVForRole(b,'TWO'),estimateShotEVForRole(b,'THREE'))-Math.max(estimateShotEVForRole(a,'TWO'),estimateShotEVForRole(a,'THREE')))[0]}
+function estimateShotEVForRole(r,c){if(!countCard(r,c))return-99;return estimateShotEV(c)}
+function estimateShotEV(c){const base=c==='TWO'?2:3,exact=c==='TWO'?'BLOCK':'CONTEST';const pExact=estimateBlueHas(exact),pFoul=estimateBlueHas('FOUL')*(1-pExact),pFT=estimateBlueHas('FT');return base*(1-pExact-pFoul)+1*pFoul*pFT}
+function estimateUnseen(c){return Math.max(0,SPEC[c]-G.played[c]-teamCount('red',c))}
+function estimateBlueHas(c){
+  const unseenTotal=totalHand('blue');if(unseenTotal<=0)return 0;const copies=estimateUnseen(c);if(copies<=0)return 0;
+  return Math.min(.995,copies/unseenTotal*4.2);
+}
+async function aiShoot(card){const h=holder();removeCard(h,card);render();log(`<b>${h.label}</b> 打出 <b>${NAME[card]}</b>。`,'bad');await sleep(380);promptHumanDefense(card,h)}
+function availableHumanDef(card){const exact=card==='TWO'?'BLOCK':'CONTEST';return{exact,exactRoles:G.roles.blue.filter(r=>countCard(r,exact)>0),foulRoles:G.roles.blue.filter(r=>countCard(r,'FOUL')>0)}}
+function promptHumanDefense(card,attacker){
+  const d=availableHumanDef(card),pts=card==='TWO'?2:3,buttons=[];
+  d.exactRoles.forEach(r=>buttons.push({text:`${r.label}: ${d.exact}`,cls:'blue',fn:()=>humanDefenseChoice(card,r,d.exact)}));
+  d.foulRoles.forEach(r=>buttons.push({text:`${r.label}: FOUL`,cls:'red',fn:()=>humanDefenseChoice(card,r,'FOUL')}));
+  buttons.push({text:`不防守（AI +${pts}）`,cls:'ghost',fn:()=>humanDefenseChoice(card,null,null)});
+  showModal(`AI打出 ${NAME[card]}`,`<p>${attacker.label} 正在投篮。选择你的防守方式。</p>`,buttons)
+}
+async function humanDefenseChoice(card,role,def){
+  if(!def){const pts=card==='TWO'?2:3;G.score.red+=pts;log(`BLUE选择不防守 → RED <b>+${pts}</b>。`,'bad');render();await sleep(250);busy=false;normalPossession('blue');return}
+  removeCard(role,def);render();log(`<b>${role.label}</b> 打出 <b>${NAME[def]}</b>。`,'good');
+  if(def==='FOUL'){await resolveFreeThrow('red');busy=false;normalPossession('blue');return}
+  log(`防守成功，RED 本次投篮 0 分。`,'good');await sleep(220);busy=false;normalPossession('blue')
+}
+async function aiPass(from,target){log(`<b>${from.label}</b> PASS → <b>${target.label}</b>。`,'bad');await sleep(350);const stealers=G.roles.blue.filter(r=>countCard(r,'STEAL')>0);
+  if(!stealers.length){log(`AI传球成功，${target.label} 接球。`);possessionToRole(target,'PASS成功');return}
+  const buttons=stealers.map(r=>({text:`${r.label}: STEAL`,cls:'green',fn:()=>humanSteal(r)}));buttons.push({text:'不抢断',cls:'ghost',fn:()=>{log(`BLUE放弃STEAL，${target.label} 接球。`);possessionToRole(target,'PASS成功')}});
+  showModal('AI正在传球',`<p>${from.label} → ${target.label}。你可以在传球过程中使用 STEAL。</p>`,buttons)
+}
+function humanSteal(role){removeCard(role,'STEAL');log(`<b>${role.label}</b> 打出 <b>STEAL</b>！直接获得篮球。`,'good');render();busy=false;possessionToRole(role,'STEAL成功')}
+
+async function resolveFreeThrow(team){
+  const roles=G.roles[team].filter(r=>countCard(r,'FT')>0);if(!roles.length){log(`${team.toUpperCase()} 没有 FREE THROW，本次犯规没有得分。`);return}
+  if(team==='red'){
+    const r=[...roles].sort((a,b)=>a.hand.length-b.hand.length)[0];removeCard(r,'FT');G.score.red+=1;log(`${r.label} 提供 <b>FREE THROW</b> → RED <b>+1</b>。`,'bad');render();await sleep(220);return
+  }
+  await new Promise(resolve=>{const buttons=roles.map(r=>({text:`${r.label}: FREE THROW +1`,cls:'green',fn:()=>{removeCard(r,'FT');G.score.blue+=1;log(`${r.label} 提供 <b>FREE THROW</b> → BLUE <b>+1</b>。`,'good');render();resolve()}}));showModal('FOUL → FREE THROW',`<p>选择你队里哪一个角色提供 FREE THROW。</p>`,buttons)})
+}
+
+function endRound(){
+  if(G.roundOver)return;G.roundOver=true;G.holder=null;render();const b=G.score.blue,r=G.score.red;
+  if(b>r){G.wins.blue++;log(`<b>本局结束：BLUE ${b} — ${r} RED，BLUE拿下1局。</b>`,'good')}
+  else if(r>b){G.wins.red++;log(`<b>本局结束：BLUE ${b} — ${r} RED，RED拿下1局。</b>`,'bad')}
+  else log(`<b>本局 ${b} — ${r} 平局，不计任何一方胜场。</b>`);
+  render();
+  if(G.wins.blue>=3||G.wins.red>=3){G.matchOver=true;const w=G.wins.blue>G.wins.red?'BLUE · YOU':'RED · HARD AI';showModal('整场结束',`<p><b>${w}</b> 率先拿下3局。</p><p>最终小局胜场：BLUE ${G.wins.blue} — ${G.wins.red} RED</p>`,[{text:'再来一场',cls:'green',fn:newMatch}]);return}
+  showModal('小局结束',`<p>本局比分：<b>BLUE ${b} — ${r} RED</b></p><p>${b===r?'平局不计胜场。':'当前小局胜场：BLUE '+G.wins.blue+' — '+G.wins.red+' RED'}</p>`,[{text:'下一小局',cls:'green',fn:()=>{G.round++;setupRound()}}])
+}
+
+ELEM('restart').onclick=()=>showModal('重新开始？','<p>当前整场进度会被清空。</p>',[{text:'确定重新开始',cls:'red',fn:newMatch},{text:'取消',cls:'ghost',fn:()=>{}}]);
+ELEM('mode').onchange=()=>showModal('切换测试人数','<p>切换人数结构会重新开始整场。</p>',[{text:'确定',cls:'green',fn:newMatch},{text:'取消',cls:'ghost',fn:()=>{}}]);
+ELEM('reveal').onchange=render;
+newMatch();
+})();
+</script>
+</body>
+</html>
