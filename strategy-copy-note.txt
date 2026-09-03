@@ -1,1 +1,0 @@
-strategy.html will mirror the current playable prototype during homepage rollout.
