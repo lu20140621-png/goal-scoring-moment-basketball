@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090d14">
+<title>Goal-Scoring Moment — Strategy Mode</title>
+<link rel="stylesheet" href="strategy-role.css?build=20260904r1">
+</head>
+<body>
+<section class="setupScreen" id="setupScreen">
+  <div class="setupShell">
+    <div class="setupTop"><div class="setupBrand">GOAL-SCORING MOMENT · BASKETBALL</div><a class="setupHome" href="home.html">← HOME</a></div>
+    <div class="setupHero"><div class="kick">STRATEGY MODE</div><h1>CHOOSE<br>YOUR MATCH</h1><p>先选择比赛人数。确认后发完48张功能牌，并从8张隐藏角色卡中随机分配身份；随后通过石头剪刀布决定本局第一次球权。</p></div>
+    <div class="modeChoices" id="modeChoices">
+      <button class="modeChoice active" data-n="2" type="button"><b>2v2</b><span>4名角色在中场对峙</span><small>每个角色 12 张功能牌 · 随机使用4张角色卡</small></button>
+      <button class="modeChoice" data-n="3" type="button"><b>3v3</b><span>6名角色 · 更强传球博弈</span><small>每个角色 8 张功能牌 · 随机使用6张角色卡</small></button>
+      <button class="modeChoice" data-n="4" type="button"><b>4v4</b><span>8名角色 · 完整阵容</span><small>每个角色 6 张功能牌 · 8张角色卡全部使用</small></button>
+    </div>
+    <div class="setupNote">角色卡不计入48张功能牌。每小局结束后，8张角色卡重新洗牌并重新分配。</div>
+    <div class="setupStart"><button class="startBtn" id="startMatch" type="button">START MATCH →</button></div>
+  </div>
+</section>
+<div class="app hidden" id="gameApp">
+  <div class="top">
+    <div class="teamHead"><div><span class="tag">BLUE · YOU</span><div class="roundPts" id="blueScore">0</div><div class="wins">小局胜场 <b id="blueWins">0</b> / 3</div></div></div>
+    <div class="center"><small>ROUND <span id="roundNo">1</span></small><div class="score"><span id="centerBlue">0</span> — <span id="centerRed">0</span></div></div>
+    <div class="teamHead red"><div><span class="tag">RED · HARD AI</span><div class="roundPts" id="redScore">0</div><div class="wins">小局胜场 <b id="redWins">0</b> / 3</div></div></div>
+  </div>
+  <div class="tools">
+    <a class="homeLink" href="home.html">← HOME</a>
+    <button class="tool" id="changeMode">人数：<b id="modeLabel">2v2</b></button>
+    <label class="tool"><input type="checkbox" id="reveal"> 测试时显示AI手牌</label>
+    <button class="tool" id="restart">重新开始整场</button>
+    <span class="aiBadge">◆ HARD AI · 记牌 + 角色技能 + PUMP/FOUL资源判断</span>
+  </div>
+  <div class="court">
+    <div class="courtLines" aria-hidden="true"><div class="centerLine"></div><div class="centerCircle"></div><div class="paint top"></div><div class="paint bottom"></div><div class="freeCircle top"></div><div class="freeCircle bottom"></div><div class="threeArc top"></div><div class="threeArc bottom"></div><div class="laneDot top"></div><div class="laneDot bottom"></div></div>
+    <div class="hoop top" aria-hidden="true"><div class="backboard"></div><div class="rim"></div><div class="net"></div></div>
+    <div class="hoop bottom" aria-hidden="true"><div class="backboard"></div><div class="rim"></div><div class="net"></div></div>
+    <section class="half ai"><div class="halfTitle"><h2>RED TEAM · AI</h2><span id="redInfo"></span></div><div class="roles" id="redRoles"></div></section>
+    <div class="middle"><div class="pos" id="possession">🏀 等待开局</div><div class="state" id="stateText">准备石头剪刀布</div><div class="hint" id="hint">角色身份已分配</div></div>
+    <section class="half you"><div class="halfTitle"><h2>BLUE TEAM · YOU</h2><span id="blueInfo"></span></div><div class="roles" id="blueRoles"></div></section>
+  </div>
+  <div class="actionPanel"><h3 id="actionTitle">等待开局</h3><div class="actions" id="actions"></div><div class="tiny">角色技能每小局重新可用。BLUE角色你可以直接看到；RED身份保持隐藏，只有发动技能时才翻开。PUMP FAKE规则保持不变。</div></div>
+  <div class="gridBottom">
+    <div class="box"><h3>比赛日志</h3><div class="log" id="log"></div></div>
+    <div class="box"><h3>48张功能牌 + 8张独立角色卡</h3><div class="rules"><strong>功能牌：</strong>2-POINT ×14 · 3-POINTER ×10 · FREE THROW ×4 · BLOCK / CONTEST / STEAL / FOUL / PUMP FAKE 各×4。<br><strong>球权：</strong>投篮结束后按固定轮转；PASS可指定队友但可被STEAL；双方都无投篮牌结束本局。<div class="roleLegend" id="roleLegend"></div></div></div>
+  </div>
+</div>
+<div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions" id="modalActions"></div></div></div>
+<script src="strategy-role-base.js?build=20260904r1"></script>
+<script src="strategy-role-play1.js?build=20260904r1"></script>
+<script src="strategy-role-play2.js?build=20260904r1"></script>
+</body>
+</html>
