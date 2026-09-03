@@ -1,1 +1,0 @@
-Preserve the existing strategy prototype while replacing the root homepage.
