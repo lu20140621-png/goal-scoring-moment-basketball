@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#090d14">
 <title>Goal-Scoring Moment — Strategy Mode</title>
-<link rel="stylesheet" href="strategy-role.css?build=20260904r1">
+<link rel="stylesheet" href="strategy-role.css?build=20260904r2">
+<link rel="stylesheet" href="strategy-role-hand.css?build=20260904r2">
 </head>
 <body>
 <section class="setupScreen" id="setupScreen">
@@ -42,15 +43,26 @@
     <div class="middle"><div class="pos" id="possession">🏀 等待开局</div><div class="state" id="stateText">准备石头剪刀布</div><div class="hint" id="hint">角色身份已分配</div></div>
     <section class="half you"><div class="halfTitle"><h2>BLUE TEAM · YOU</h2><span id="blueInfo"></span></div><div class="roles" id="blueRoles"></div></section>
   </div>
-  <div class="actionPanel"><h3 id="actionTitle">等待开局</h3><div class="actions" id="actions"></div><div class="tiny">角色技能每小局重新可用。BLUE角色你可以直接看到；RED身份保持隐藏，只有发动技能时才翻开。PUMP FAKE规则保持不变。</div></div>
+
+  <section class="handDock" id="handDock" aria-label="Current player hand">
+    <div class="handTop">
+      <div><div class="handEyebrow">CURRENT HAND</div><div class="handTitle" id="handTitle">等待比赛开始</div><div class="handHint" id="handHint">卡牌会像拿在手里一样扇形展开</div></div>
+      <div class="handControls"><button class="handPass" id="handPass" type="button" disabled>PASS</button></div>
+    </div>
+    <div class="passModeNotice">选择球场上发光的蓝队队友传球。<button class="btn ghost" id="cancelPass" type="button">取消传球</button></div>
+    <div class="fanStage" id="fanHand"><div class="fanEmpty">比赛开始后，当前持球人的手牌会在这里以扇形展开。</div></div>
+  </section>
+
+  <div class="actionPanel"><h3 id="actionTitle">等待开局</h3><div class="actions" id="actions"></div><div class="tiny">直接点击下方扇形手牌出牌。亮边卡牌代表当前可直接打出；灰色牌会在对应的防守、抢断、犯规或PUMP FAKE时机使用。</div></div>
   <div class="gridBottom">
     <div class="box"><h3>比赛日志</h3><div class="log" id="log"></div></div>
     <div class="box"><h3>48张功能牌 + 8张独立角色卡</h3><div class="rules"><strong>功能牌：</strong>2-POINT ×14 · 3-POINTER ×10 · FREE THROW ×4 · BLOCK / CONTEST / STEAL / FOUL / PUMP FAKE 各×4。<br><strong>球权：</strong>投篮结束后按固定轮转；PASS可指定队友但可被STEAL；双方都无投篮牌结束本局。<div class="roleLegend" id="roleLegend"></div></div></div>
   </div>
 </div>
 <div class="overlay" id="overlay"><div class="modal"><h2 id="modalTitle"></h2><div id="modalBody"></div><div class="modalActions" id="modalActions"></div></div></div>
-<script src="strategy-role-base.js?build=20260904r1"></script>
-<script src="strategy-role-play1.js?build=20260904r1"></script>
-<script src="strategy-role-play2.js?build=20260904r1"></script>
+<script src="strategy-role-base.js?build=20260904r2"></script>
+<script src="strategy-role-play1.js?build=20260904r2"></script>
+<script src="strategy-role-play2.js?build=20260904r2"></script>
+<script src="strategy-role-hand.js?build=20260904r2"></script>
 </body>
 </html>
